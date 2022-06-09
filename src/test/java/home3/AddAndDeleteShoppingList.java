@@ -1,15 +1,16 @@
 package home3;
 
 import io.restassured.RestAssured;
-import io.restassured.path.json.JsonPath;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import static io.restassured.RestAssured.given;
 
 public class AddAndDeleteShoppingList extends AbstractTest {
+
+    Integer numberId;
 
     @BeforeAll
     static void assuredTest() {
@@ -21,7 +22,6 @@ public class AddAndDeleteShoppingList extends AbstractTest {
     void postAddAndDeleteShoppingList() {
 
         given()
-                //.contentType("application/x-www-form-urlencoded")
                 .queryParam("apiKey", getApikey())
                 .queryParam("hash", "4cff46e48bc0b34aa67e096741b1339d9f05d2c4")
                 .queryParam("username", "88c3f9fa-a337-4a33-9057-ec74b43a0ac9")
@@ -36,7 +36,7 @@ public class AddAndDeleteShoppingList extends AbstractTest {
                 .statusCode(200);
 
 
-        String id = given()
+        numberId = given()
                 .queryParam("apiKey", getApikey())
                 .queryParam("hash", "4cff46e48bc0b34aa67e096741b1339d9f05d2c4")
                 .queryParam("username", "88c3f9fa-a337-4a33-9057-ec74b43a0ac9")
@@ -44,9 +44,20 @@ public class AddAndDeleteShoppingList extends AbstractTest {
                 .get(getBaseUrl() + "/mealplanner/88c3f9fa-a337-4a33-9057-ec74b43a0ac9/shopping-list")
                 .body()
                 .jsonPath()
-                .get("id")
-                .toString();
+                .get("aisles[0].items[0].id");
+    }
 
+    @AfterEach
+    void tearDown() {
+        given()
+                .queryParam("apiKey", getApikey())
+                .queryParam("hash", "4cff46e48bc0b34aa67e096741b1339d9f05d2c4")
+                .pathParams("username", "88c3f9fa-a337-4a33-9057-ec74b43a0ac9")
+                .pathParam("id", numberId)
+                .when()
+                .delete(getBaseUrl() + "/mealplanner/{username}/templates/{id}")
+                .then()
+                .statusCode(200);
 
     }
 }

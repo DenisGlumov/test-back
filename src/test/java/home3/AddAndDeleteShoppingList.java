@@ -21,10 +21,7 @@ public class AddAndDeleteShoppingList extends AbstractTest {
     @Test
     void postAddAndDeleteShoppingList() {
 
-        given()
-                .queryParam("apiKey", getApikey())
-                .queryParam("hash", "4cff46e48bc0b34aa67e096741b1339d9f05d2c4")
-                .queryParam("username", "88c3f9fa-a337-4a33-9057-ec74b43a0ac9")
+        given().spec(requestSpecificationShoppingList)
                 .body("{\n" +
                         "\t\"item\": \"TestGlimov01\",\n" +
                         "\t\"aisle\": \"Baking\",\n" +
@@ -33,13 +30,10 @@ public class AddAndDeleteShoppingList extends AbstractTest {
                 .when()
                 .post(getBaseUrl() + "/mealplanner/88c3f9fa-a337-4a33-9057-ec74b43a0ac9/shopping-list/items")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
 
 
-        numberId = given()
-                .queryParam("apiKey", getApikey())
-                .queryParam("hash", "4cff46e48bc0b34aa67e096741b1339d9f05d2c4")
-                .queryParam("username", "88c3f9fa-a337-4a33-9057-ec74b43a0ac9")
+        numberId = given().spec(requestSpecificationShoppingList)
                 .when()
                 .get(getBaseUrl() + "/mealplanner/88c3f9fa-a337-4a33-9057-ec74b43a0ac9/shopping-list")
                 .body()
@@ -49,15 +43,12 @@ public class AddAndDeleteShoppingList extends AbstractTest {
 
     @AfterEach
     void tearDown() {
-        given()
-                .queryParam("apiKey", getApikey())
-                .queryParam("hash", "4cff46e48bc0b34aa67e096741b1339d9f05d2c4")
-                .pathParams("username", "88c3f9fa-a337-4a33-9057-ec74b43a0ac9")
+        given().spec(requestSpecificationShoppingList)
                 .pathParam("id", numberId)
                 .when()
-                .delete(getBaseUrl() + "/mealplanner/{username}/templates/{id}")
+                .delete(getBaseUrl() + "/mealplanner/88c3f9fa-a337-4a33-9057-ec74b43a0ac9/templates/{id}")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
 
     }
 }

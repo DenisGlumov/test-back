@@ -8,15 +8,13 @@ public class ComplexSearch extends AbstractTest {
 
     @Test
     void getComplexSearch() {
-        given()
-                .queryParam("apiKey", getApikey())
+        given().spec(requestSpecification)
                 .when()
                 .get(getBaseUrl() + "/recipes/complexSearch")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
 
-        given()
-                .queryParam("apiKey", getApikey())
+        given().spec(requestSpecification)
                 .queryParam("query", "pasta")
                 .queryParam("equipment", "pan")
                 .queryParam("excludeIngredients", "eggs")
@@ -24,28 +22,25 @@ public class ComplexSearch extends AbstractTest {
                 .when()
                 .get(getBaseUrl() + "/recipes/complexSearch")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
 
-        given()
-                .queryParam("apiKey", getApikey())
+        given().spec(requestSpecification)
                 .queryParam("maxCarbs", "100")
                 .when()
                 .get(getBaseUrl() + "/recipes/complexSearch")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
 
-        given()
-                .queryParam("apiKey", getApikey())
+        given().spec(requestSpecification)
                 .queryParam("excludeCuisine", "greek")
                 .queryParam("intolerances", "gluten")
                 .queryParam("includeIngredients", "tomato,cheese")
                 .when()
                 .get(getBaseUrl() + "/recipes/complexSearch")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
 
-        given()
-                .queryParam("apiKey", getApikey())
+        given().spec(requestSpecification)
                 .queryParam("excludeCuisine", "greek")
                 .queryParam("intolerances", "gluten")
                 .queryParam("excludeIngredients", "eggs")
@@ -54,7 +49,7 @@ public class ComplexSearch extends AbstractTest {
                 .when()
                 .get(getBaseUrl() + "/recipes/complexSearch")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
     }
 
 

@@ -8,38 +8,38 @@ public class RecipesCuisine extends AbstractTest{
 
     @Test
     void postRecipesCuisine () {
-        given()
-                .queryParam("apiKey", getApikey())
+        Response response = given().spec(requestSpecification)
                 .contentType("application/x-www-form-urlencoded")
                 .formParam("title","Pork roast with green beans")
                 .formParam("language", "de")
                 .when()
                 .post(getBaseUrl()+"/recipes/cuisine")
                 .then()
-                .statusCode(200);
+                .extract()
+                .response()
+                .body()
+                .as(Response.class);
 
-        given()
-                .queryParam("apiKey", getApikey())
+
+        given().spec(requestSpecification)
                 .contentType("application/x-www-form-urlencoded")
                 .formParam("title","borsch")
                 .formParam("language", "en")
                 .when()
                 .post(getBaseUrl()+"/recipes/cuisine")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
 
-        given()
-                .queryParam("apiKey", getApikey())
+        given().spec(requestSpecification)
                 .contentType("application/x-www-form-urlencoded")
                 .formParam("title","eggs")
                 .formParam("language", "en")
                 .when()
                 .post(getBaseUrl()+"/recipes/cuisine")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
 
-        given()
-                .queryParam("apiKey", getApikey())
+        given().spec(requestSpecification)
                 .contentType("application/x-www-form-urlencoded")
                 .formParam("title","eggs")
                 .formParam("language", "en")
@@ -47,10 +47,9 @@ public class RecipesCuisine extends AbstractTest{
                 .when()
                 .post(getBaseUrl()+"/recipes/cuisine")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
 
-        given()
-                .queryParam("apiKey", getApikey())
+        given().spec(requestSpecification)
                 .contentType("application/x-www-form-urlencoded")
                 .formParam("title","eggs")
                 .formParam("language", "en")
@@ -58,8 +57,9 @@ public class RecipesCuisine extends AbstractTest{
                 .when()
                 .post(getBaseUrl()+"/recipes/cuisine")
                 .then()
-                .statusCode(200);
+                .spec(responseSpecification);
 
     }
+
 
 }
